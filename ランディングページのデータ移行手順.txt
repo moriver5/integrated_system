@@ -1,0 +1,21 @@
+■ランディングページのデータ移行手順
+	・移行元のデータベースのlandingテーブル、landing_detailテーブルからMySQLクライアントなどを利用してデータをCSV形式で出力します。
+		(添付ファイル参照：dos_landing.csv、dos_landing_detail.csv)
+
+	・データ移行ツール
+		ツール保存場所					：/data/www/siteo/app/Console/Commands
+		ツール名						：insertLpData.php
+		LPデータのCSVファイル保存場所	：/data/www/storage/siteo/storage/csv_data
+		各LPの保存場所					：/data/www/storage/siteo/storage/app/public/ドメイン名/LP/LP番号の配下に各LPのファイル・画像が保存されている
+
+	・実行方法
+		sudo -uapache php artisan insert:lp landingテーブルのCSVファイル landing_detailテーブルのCSVファイル 移行先のデータベース名
+		例：sudo -uapache php  artisan insert:lp dos_landing.csv dos_landing_detail.csv gsta
+
+	・ツールの実行内容
+		移行元のランディングページのデータを移行先のランディングページへ移行する。
+
+	・データ移行ツールの注意点
+		※dosデータベースのlandingテーブル、landing_detailテーブルを今回のlanding_pagesテーブル、landing_pages_contentsテーブルへ移行で使用したツールです。
+		必ずプログラムの中身を見て移行元と移行先のデータが正しいのか検証してから使用してください。
+

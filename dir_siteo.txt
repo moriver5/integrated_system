@@ -1,0 +1,185 @@
+├─app
+│  ├─Console
+│  │  └─Commands →バッチ処理用プログラム
+│  ├─Exceptions
+│  ├─Facades
+│  ├─Http
+│  │  ├─Controllers
+│  │  │  ├─Admin →管理画面用コントローラー
+│  │  │  │  └─Auth →管理画面ログイン用コントローラー
+│  │  │  ├─Agency →代理店管理画面用コントローラー
+│  │  │  │  └─Auth →代理店管理画面ログイン用コントローラー
+│  │  │  └─Auth →サイト用ログインコントローラー
+│  │  ├─Middleware →ルーティング時のフィルター用プログラム
+│  │  └─Requests
+│  ├─Libs
+│  ├─Mail
+│  ├─Model
+│  ├─Providers
+│  ├─Validator
+│  └─VendorOverrides →vendor配下のclassをオーバーライドしたclass格納フォルダ
+│      ├─DB →vendor配下のデータベース関連classをオーバーライドしたclass格納フォルダ
+│      └─Support →現在、使用していない
+├─bootstrap
+│  └─cache
+├─config →frameworkの設定ファイル格納フォルダ
+│  ├─jray →サイトAの設定ファイル格納フォルダ
+│  ├─kriy →サイトBの設定ファイル格納フォルダ
+│  └─tclb →サイトCの設定ファイル格納フォルダ
+├─database
+│  ├─factories
+│  ├─migrations
+│  └─seeds
+├─public
+│  ├─css
+│  │  ├─admin →管理画面用のCSSファイル格納フォルダ
+│  │  └─common
+│  │      └─images
+│  ├─dev.jra-yosou.net →サイトAのドキュメントルートフォルダ
+│  │  ├─css
+│  │  │  └─common
+│  │  │      └─images
+│  │  ├─image
+│  │  │  └─display_image
+│  │  ├─images
+│  │  │  ├─top_content
+│  │  │  └─_sample-images
+│  │  ├─js
+│  │  ├─LP →/data/www/storage/siteo/storage/app/public/dev.jra-yosou.net/LPからこのディレクトリにシンボリックリンクを張っています。
+│  │  └─upload_images
+│  ├─dev.keirin-yosou.com →サイトBのドキュメントルートフォルダ
+│  │  ├─css
+│  │  │  └─common
+│  │  │      └─images
+│  │  ├─images
+│  │  │  ├─top_content
+│  │  │  └─_sample-images
+│  │  ├─js
+│  │  ├─LP →/data/www/storage/siteo/storage/app/public/dev.keirin-yosou.com/LPからこのディレクトリにシンボリックリンクを張っています。
+│  │  └─upload_images
+│  ├─dev.tcl-boat.com →サイトCのドキュメントルートフォルダ
+│  │  ├─css
+│  │  │  └─common
+│  │  │      └─images
+│  │  ├─images
+│  │  │  ├─top_content
+│  │  │  ├─voice
+│  │  │  └─_sample-images
+│  │  ├─js
+│  │  ├─LP →/data/www/storage/siteo/storage/app/public/dev.tcl-boat.com/LPからこのディレクトリにシンボリックリンクを張っています。
+│  │  └─upload_images
+│  ├─images
+│  │  ├─admin
+│  │  ├─top_content
+│  │  └─_sample-images
+│  └─js
+│      └─admin →管理画面用javascriptファイル格納フォルダ
+├─resources →frameworkで使用するテンプレートファイル格納フォルダ
+│  ├─assets
+│  │  ├─js
+│  │  │  └─components
+│  │  └─sass
+│  ├─lang →ヴァリデーションメッセージファイル、メッセージファイル格納フォルダ
+│  │  ├─en
+│  │  ├─ja
+│  │  ├─jray →サイトA用のヴァリデーションメッセージファイル、メッセージファイル格納フォルダ
+│  │  │  ├─en
+│  │  │  └─ja
+│  │  ├─kriy →サイトB用のヴァリデーションメッセージファイル、メッセージファイル格納フォルダ
+│  │  │  ├─en
+│  │  │  └─ja
+│  │  ├─tclb →サイトC用のヴァリデーションメッセージファイル、メッセージファイル格納フォルダ
+│  │  │  ├─en
+│  │  │  └─ja
+│  │  └─vendor
+│  └─views →frameworkで使用するテンプレートファイル格納フォルダ
+│      ├─errors
+│      └─pc
+│          ├─admin →管理画面用テンプレートフォルダ
+│          │  ├─ad
+│          │  │  ├─adcode
+│          │  │  ├─agency
+│          │  │  └─media
+│          │  ├─analytics
+│          │  │  ├─access
+│          │  │  ├─buy
+│          │  │  ├─event
+│          │  │  ├─melmaga
+│          │  │  ├─newpayment
+│          │  │  ├─payment
+│          │  │  ├─pay_report
+│          │  │  ├─pv
+│          │  │  ├─repeat
+│          │  │  ├─sales
+│          │  │  ├─salesstructure
+│          │  │  ├─statistics
+│          │  │  └─trends
+│          │  ├─auth
+│          │  │  └─passwords
+│          │  ├─client
+│          │  ├─forecast
+│          │  │  └─visitor
+│          │  ├─group
+│          │  ├─info
+│          │  ├─lp
+│          │  ├─master
+│          │  │  ├─banner
+│          │  │  ├─img_upload
+│          │  │  ├─ng_word
+│          │  │  └─relayserver
+│          │  ├─melmaga
+│          │  ├─member
+│          │  └─page
+│          │      ├─achievement
+│          │      ├─content
+│          │      ├─product
+│          │      └─voice
+│          ├─jray →サイトA用のテンプレートフォルダ
+│          │  ├─agency →代理店用テンプレートフォルダ
+│          │  │  └─auth →代理店ログイン用のテンプレートフォルダ
+│          │  │      └─passwords
+│          │  ├─auth →サイトAのログイン用テンプレートフォルダ
+│          │  │  └─passwords
+│          │  ├─emails →サイトA用のメールテンプレートフォルダ
+│          │  ├─errors
+│          │  ├─layouts
+│          │  │  └─tags
+│          │  ├─member →サイトA用のログイン後で使用するテンプレートフォルダ
+│          │  └─vendor
+│          │      └─pagination
+│          ├─kriy →サイトB用のテンプレートフォルダ
+│          │  ├─agency →代理店用テンプレートフォルダ
+│          │  │  └─auth →代理店ログイン用のテンプレートフォルダ
+│          │  │      └─passwords
+│          │  ├─auth
+│          │  │  └─passwords
+│          │  ├─emails →サイトB用のメールテンプレートフォルダ
+│          │  ├─errors
+│          │  ├─layouts
+│          │  │  └─tags
+│          │  ├─member →サイトB用のログイン後で使用するテンプレートフォルダ
+│          │  └─vendor
+│          │      └─pagination
+│          ├─layouts
+│          │  └─tags
+│          ├─tclb →サイトC用のテンプレートフォルダ
+│          │  ├─agency →代理店用テンプレートフォルダ
+│          │  │  └─auth →代理店ログイン用のテンプレートフォルダ
+│          │  │      └─passwords
+│          │  ├─auth
+│          │  │  └─passwords
+│          │  ├─emails →サイトC用のメールテンプレートフォルダ
+│          │  ├─errors
+│          │  ├─layouts
+│          │  │  └─tags
+│          │  ├─member →サイトC用のログイン後で使用するテンプレートフォルダ
+│          │  └─vendor
+│          │      └─pagination
+│          └─vendor
+│              └─pagination
+├─routes →ルーティング設定フォルダ
+├─tests →テストケース格納フォルダ
+│  ├─Feature
+│  └─Unit
+└─vendor →frameworkの基盤となるclassファイル格納フォルダ
+

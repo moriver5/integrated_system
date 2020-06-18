@@ -1,0 +1,25 @@
+@charset "utf-8";
+@import url(https://cdnjs.cloudflare.com/ajax/libs/pushy/1.1.2/css/pushy.min.css);
+
+/*========== pushy custom style ==========*/
+.site-overlay{background:none !important;}
+.pushy{width:250px !important;background:#272727 !important;border-left:3px solid #c4a674;}
+.pushy-link{color:#FFF;font-size:2em;font-weight:bold;text-align: right;padding-right:0.5em;}
+.pushy a{color:#FFF !important;font-size:1em;padding:0.7em 0.7em 0.7em 2em !important;}
+.pushy-open-right #container, .pushy-open-right .push{transform:none !important;}
+.pushy-right {
+ -webkit-transform: translate3d(250px,0,0) !important;
+ -ms-transform: translate3d(250px,0,0) !important;
+ transform: translate3d(250px,0,0) !important;
+}
+.pushy-open-left .pushy, .pushy-open-right .pushy {
+ -webkit-transform: translate3d(0,0,0) !important;
+ -ms-transform: translate3d(0,0,0) !important;
+ transform: translate3d(0,0,0) !important;
+}
+/* only state_in */
+#state_in .menu-btn{position:absolute;top:1.2em;right:5%;width: 4.5%;text-align: right;z-index:99;}
+#state_in .menu-btn > img{vertical-align: top;}
+/* only state_out */
+#state_out .menu-btn{position:fixed;bottom:1.5%;right:3%;width:15%;max-width:60px;z-index:99;}
+#state_out .menu-btn > img{max-width:100%;}

@@ -1,0 +1,205 @@
+■新サイト追加手順
+※基本的にフレームワークのLaravel5.8のルールに従って構築していますので、
+技術的な不明点は公式ドキュメントを参照してください。
+http://laravel.jp/
+
+
+	例：example.netを新規に追加する場合
+	ドメイン名：example.net
+	DB名：exan(DB名がアプリケーション名にもなっているようにすると設定がスムーズです)
+
+	１．Apacheの設定
+		cd /etc/httpd/conf.d/
+		→コマンドを実行してフォルダへ移動
+
+		cp v_g-stars.net.conf v_example.net.conf
+		→元になる設定ファイルを今回新規に追加するドメイン名でコピーする
+
+		v_example.net.confファイルの内容を今回用に修正します。
+		修正したらDocumentRoot、Directoryで指定した場所に今回用のフォルダを作成してください。
+		→変更点
+			ServerAdmin admin@example.net
+			ServerName   example.net
+			DocumentRoot /data/www/siteo/public/example.net
+			<Directory "/data/www/siteo/public/example.net">
+
+		v_example.net.confファイルを変更したら保存してApacheを再起動します。
+		→設定ファイルを読み込んでから下記いずれかのコマンドで起動・再実行・停止など行います。
+			sudo systemctl reload httpd
+			sudo systemctl start httpd
+			sudo systemctl restart httpd
+			sudo systemctl stop httpd
+			sudo systemctl status httpd.service start
+			sudo systemctl status httpd.service restart
+			sudo systemctl status httpd.service stop
+
+	２．アプリケーション側の設定
+		cd /data/www/siteo
+		→コマンドを実行してフォルダへ移動
+
+		vendor/laravel/framework/src/Illuminate/Support/Arr.phpを開き、282行目付近に下記のgetというメソッドがあり、
+		その中に$config_siteという配列がありますので、その中にドメイン名とDB名を関連付けた値を設定します。
+		すでにドメイン名：g-stars.netとDB名：gstaという値が設定されていますので、同じように設定してください。
+
+		※vendorフォルダ内のファイルを修正していますので、可能であればvendorフォルダ以外で設定できるよう修正すると今後、
+		Laravelのバージョンアップが楽になります。
+
+		例：今回はドメイン名：example.net、DB名：exanであるので下記になります。
+		$config_site = [
+			'test.g-stars.net'			=> 'gsta',
+			'g-stars.net'				=> 'gsta',
+			'example.net'				=> 'exan',
+		];
+
+		configフォルダ配下に今回使用するDB名でフォルダを作成し、その配下にconst.phpの設定ファイルを作成します。
+		/data/www/siteo/config配下にDB名のフォルダを作成。
+		→今回の例ではDB名はexanなのでフォルダ名はexanになります。
+			config/exan
+			config/exan/const.php
+
+		/data/www/siteo/config/database.phpを開き、今回使用するDB情報を追加します。
+		すでにg-stars.netで使用されるDB名：gstaの設定があるのでそれをコピーして今回用に修正します。
+		今回、DB名はexanなので下記のように設定します。DB情報は環境に合わせて変更します。
+		'exan' => [
+			'driver' => 'mysql',
+			'host' => env('DB_HOST', '172.16.0.36'),
+			'port' => env('DB_PORT', '3306'),
+			'database' => 'exan',
+			'username' => 'elephpant',
+			'password' => 'elephpant5963',
+			'unix_socket' => '',
+			'charset' => 'utf8mb4',
+			'collation' => 'utf8mb4_bin',
+			'prefix' => '',
+			'strict' => true,
+			'engine' => null,
+//PDOの持続的な接続を使用したい場合はtrue
+//			'options'   => [
+//				PDO::ATTR_PERSISTENT => true,
+//			],
+		],
+
+		/data/www/siteo/config/exan/const.phpを開き、ドメイン名とDB名を関連付けします。
+			'list_site_const'				=> [
+				'example.net'				=> 'exan',
+			],
+
+		/data/www/siteo/config/const.phpを開き、今回追加するサイト用に修正します。
+		→今回用に修正するとか気になります。ドメイン名とDB名が関連付けられているので、関連されていない名前を指定すると動きません。
+			'list_site_const'				=> [
+				'g-stars.net'				=> 'gsta',
+				'example.net'				=> 'exan',
+			],
+
+			'list_domain_const'	=> [
+				'gsta'		=> 'g-stars.net',
+				'exan'		=> 'example.net',
+			],
+
+			'list_url_const'	=> [
+				'gsta'		=> 'http://g-stars.net',
+				'exan'		=> 'http://example.net',
+			],
+
+		/data/www/siteo/public配下に今回のドメイン名でフォルダを作成します。
+		元になるサイトのフォルダをコピーする形で今回用にフォルダを作成すると設定項目が少なくなります。
+		フォルダの中にindex.phpがありますがアクセスすると必ずこのindex.phpが呼ばれるようにフレームワークは作られているので削除しないでください。
+		下記のようにして元のフォルダからまるごとコピーを行ってください。
+		cp -R g-stars.net example.net
+
+		/data/www/siteo/resources/views/pc配下に今回使用するbladeファイルを置くフォルダをDB名で作成します。
+		ここにはブラウザ画面に表示するページのファイルが置かれます。
+		作成の仕方は基本的に元になるサイトのフォルダをコピーする形で行います。
+		cp -R gsta exan
+
+		/data/www/gsta/resources/lang配下に今回使用するフォルダをDB名で作成します。
+		作成の仕方は元になるサイトのフォルダをコピーする形で行います。
+		cp -R gsta exan
+
+
+	３．DBの設定
+		今回使用するDB名：exanを作成します。作成方法は元になるサイトのDBからコピーします。
+		コピーの仕方は様々ですがやりやすい方法で行ってください。
+
+		開発環境に今回用のDBのdumpファイルがある場合(データベースの作成からのダンプファイル)
+			mysql -h 192.168.0.100 -uphp_db -pR6qCATWH < exan_dump.sql(ファイル名は任意)
+
+		本番からコピーする場合
+			mysqldump -uphp_db -p -h 192.168.0.100 -t gsta --set-gtid-purged=OFF --databases --triggers --routines --events gsta > gsta_dump.sql
+			DB名：exanのDB作成
+			mysql -h 192.168.0.100 -uphp_db -pR6qCATWH  exan < gsta_dump.sql
+
+		管理側のデータベースのoperation_dbsテーブルに新規に追加するDBを手動で登録する
+		管理側DB：siteo
+		更新するテーブル：operation_dbs
+
+	４．決済設定
+		新規にサイトを追加したらどの決済会社を利用するのか管理画面上から設定します。
+		マスタ管理→決済会社設定
+		https://admin-k.work/admin/member/master/settlement/agency/setting
+
+		新しく決済会社を追加する場合、settlement_typesテーブルに手動で情報を登録します。
+		例：今回のDB名はexanなのでexanの中にsettlement_typesテーブルがありますので、その中に情報を追加します。
+		新しく決済会社を追加した場合、それに応じた決済のページも追加します。
+
+	５．データフォルダの作成・設定
+		/data/www/storage/siteo/storage/app/public配下に今回使用するドメイン名でフォルダを作成します。
+		元になるサイトのフォルダが既にあるのでコピーする形で今回使用するフォルダを作成します。
+		データもコピーされるので使用しないデータはあとで削除します。
+		cp -R g-stars.net example.net
+
+		/data/www/storage/siteo/storage/app/public/example.net配下にフォルダとファイルがありますが、下記以外のファイルは削除してください。
+		削除しないフォルダとファイル
+		/data/www/storage/siteo/storage/app/public/example.net
+		/data/www/storage/siteo/storage/app/public/example.net/LP
+		/data/www/storage/siteo/storage/app/public/example.net/LP/.htaccess
+		/data/www/storage/siteo/storage/app/public/example.net/images
+		/data/www/storage/siteo/storage/app/public/example.net/images/tipster
+		/data/www/storage/siteo/storage/app/public/example.net/images/top_content
+		/data/www/storage/siteo/storage/app/public/example.net/images/voice
+
+		/data/www/storage/siteo/storage/app/public/example.net/imagesから/data/www/siteo/public/example.net/imagesへシンボリックリンクを作成します
+		ln -fns /data/www/storage/siteo/storage/app/public/example.net/images /data/www/siteo/public/example.net/
+
+		/data/www/storage/siteo/storageから/data/www/siteo/へシンボリックリンクを作成します
+		ln -fns /data/www/storage/siteo/storage /data/www/siteo/
+
+		cd /data/wwwへ移動しオーナーやパーミッションが変更されているので下記を実行します。
+		sudo -uapache chown -R apache:apache siteo
+		sudo -uapache chmod -R 775 siteo
+
+	６．初期化等のコマンド実行
+		cd /data/www/siteo配下へ移動し下記を実行
+		sudo -uapache /usr/local/bin/composer install --optimize-autoloader --no-dev
+		sudo -uapache /usr/local/bin/composer dump-autoload --optimize
+		sudo -uapache php artisan clear-compiled
+		sudo -uapache php artisan optimize
+		sudo -uapache php artisan cache;clear
+		sudo -uapache php artisan config:clear
+		sudo -uapache php artisan route:clear
+		sudo -uapache php artisan config:cache
+		sudo -uapache php artisan route:cache
+		sudo -uapache php artisan view:clear
+		sudo -uapache php artisan env --env=production
+
+	７．初期データの登録
+		cd /data/www/siteo配下へ移動し、下記を実行するとデータベースにデータが登録される
+		DBの初期データの登録用ファイルは/data/www/siteo/database/seeds配下にあります。
+		php artisan db:seed
+
+		※注意点：contentsテーブルのデータは順番とIDが決まっています。ここで登録されたIDを条件にデータを取得している部分がありますので
+		IDを変更した場合はプログラム側も修正してください。
+
+		下記のプログラムにおいてcontentsテーブルのIDを条件にデータを取得しています。
+		/data/www/siteo/app/Http/Controllers/SiteOperationController.php
+		/data/www/siteo/app/Http/Controllers/MemberController.php
+
+
+	８．動作確認を行う
+		動かない場合は下記にエラーログが出力されるので調べて原因を調査する
+		/data/www/storage/siteo/storage/logs/laravel.log
+
+
+
+
+

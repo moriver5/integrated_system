@@ -1,0 +1,22 @@
+■データベースのデータ移行について
+	・データ移行ツール
+		保存場所：/data/www/siteo/app/Console/Commands
+		ツール名：UserDataMigration.php
+
+	・実行方法
+		sudo -uapache php artisan data_migration:start 移行元のデータベース名 移行先のデータベース名
+		例：sudo -uapache php  artisan data_migration:start mysql_premium gsta
+
+	・ツールの実行内容
+		旧データベース上のpayment_logテーブルとuserテーブルのデータを
+		新データベース上にあるpayment_logsテーブルとusersテーブルへデータ移行を行う
+
+	・データ移行ツールの注意点
+		・そのまま使用できないので、必ずプログラムの中身を見て移行元と移行先のデータが正しいのか検証してから使用してください。
+		・UserDataMigration.php内で移行先のグループIDが6（移行ユーザー）になっていますが、移行先のグループIDと合わせるようにしてください。
+
+		※移行先のusersテーブルの下記のカラムはユニーク属性ですが、移行元データの中に重複データがありそのままでは移行できません。
+		重複データがある状態で移行する場合、テーブルのユニーク属性を外す、必要ないデータは登録させないなどの対応が必要です。
+		(ログインIDが重複したアクティブなデータもあり、別々のユーザーが同一のログインIDを使用する可能性もあります)
+		mail_address、mobile_mail_address、login_id
+
