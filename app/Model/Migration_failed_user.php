@@ -16,6 +16,7 @@ class Migration_failed_user extends BaseModel
 		'disable',
 		'reg_date',
 		'last_access_date',
+		'description',
 		'memo'
 	];
 }

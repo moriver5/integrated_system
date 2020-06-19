@@ -15,6 +15,9 @@ use App\Model\Create_order_id;
 use App\Model\Magnification_setting;
 use App\Model\Banner;
 use App\Model\Settlement_type;
+use App\Model\Mail_content;
+use App\Mail\SendMail;
+use Mail;
 use Utility;
 use DB;
 use Carbon\Carbon;
@@ -149,6 +152,47 @@ class SettlementController extends Controller
 
 		//銀行振込
 		if( $method == 1 ){
+
+			//自動メールのデータ取得
+			$db_cnt = Mail_content::where('id', 10)->first();
+
+			//データがあれば
+			if( !empty($db_cnt) ){
+				//変換後の文字列を取得
+				list($body, $subject, $from_name, $from_mail) = Utility::getMailConvertData($db_cnt->body, $db_cnt->subject, $db_cnt->from, $db_cnt->from_mail);
+
+				//変換後の文字列を取得
+				$body = Utility::getConvertData($body);
+				$body = preg_replace("/\-%usermail\-/", $disp_param['email'], $body);
+				$body = preg_replace("/\-%transfer_amount\-/", $total, $body);
+				$body = preg_replace("/\-%order_date\-/", $now_date, $body);
+				$body = preg_replace("/\-%order_id\-/", $order_id, $body);
+				$body = preg_replace("/\-%login_id\-/", $disp_param['login_id'], $body);
+				$body = preg_replace("/\-%password\-/", $disp_param['password_raw'], $body);
+				$body = preg_replace("/\-%token\-/", $disp_param['token'], $body);
+				$body = preg_replace("/\-%accessKey\-/", $disp_param['token'], $body);
+
+				list($host_ip, $port) = Utility::getSmtpHost('setting');
+
+				//送信元情報設定
+				$options = [
+					'client_id'	 => $disp_param['client_id'],
+					'host_ip'	 => $host_ip,
+					'port'		 => $port,
+					'from'		 => $from_mail,
+					'from_name'	 => $from_name,
+					'subject'	 => $subject,
+					'template'	 => config('const.list_site_const')[$_SERVER['SERVER_NAME']].'.'.config('const.product_order'),
+				];
+
+				//送信データ設定
+				$data = [
+					'contents'		=> $body,
+				];
+
+				//メールアドレス変更先へメール送信
+				Mail::to($disp_param['email'])->send( new SendMail($options, $data) );
+			}
 			$disp_name = config('const.display_list')['mem_product_buy_bank'];
 			$settlement_url = '';
 
@@ -312,6 +356,46 @@ class SettlementController extends Controller
 
 		//銀行振込
 		if( $method == 1 ){
+			//自動メールのデータ取得
+			$db_cnt = Mail_content::where('id', 10)->first();
+
+			//データがあれば
+			if( !empty($db_cnt) ){
+				//変換後の文字列を取得
+				list($body, $subject, $from_name, $from_mail) = Utility::getMailConvertData($db_cnt->body, $db_cnt->subject, $db_cnt->from, $db_cnt->from_mail);
+
+				//変換後の文字列を取得
+				$body = Utility::getConvertData($body);
+				$body = preg_replace("/\-%usermail\-/", $disp_param['email'], $body);
+				$body = preg_replace("/\-%transfer_amount\-/", $total, $body);
+				$body = preg_replace("/\-%order_date\-/", $now_date, $body);
+				$body = preg_replace("/\-%order_id\-/", $order_id, $body);
+				$body = preg_replace("/\-%login_id\-/", $disp_param['login_id'], $body);
+				$body = preg_replace("/\-%password\-/", $disp_param['password_raw'], $body);
+				$body = preg_replace("/\-%token\-/", $disp_param['token'], $body);
+				$body = preg_replace("/\-%accessKey\-/", $disp_param['token'], $body);
+
+				list($host_ip, $port) = Utility::getSmtpHost('setting');
+
+				//送信元情報設定
+				$options = [
+					'client_id'	 => $disp_param['client_id'],
+					'host_ip'	 => $host_ip,
+					'port'		 => $port,
+					'from'		 => $from_mail,
+					'from_name'	 => $from_name,
+					'subject'	 => $subject,
+					'template'	 => config('const.list_site_const')[$_SERVER['SERVER_NAME']].'.'.config('const.product_order'),
+				];
+
+				//送信データ設定
+				$data = [
+					'contents'		=> $body,
+				];
+
+				//メールアドレス変更先へメール送信
+				Mail::to($disp_param['email'])->send( new SendMail($options, $data) );
+			}
 			$settlement_url = '';
 			$disp_name = config('const.display_list')['mem_product_buy_bank'];
 

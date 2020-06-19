@@ -97,25 +97,32 @@ echo "処理件数：{$user_count}\n";
 //						if( !in_array($user_lines->regist_status, [0,1]) ){
 //							continue;
 //						}
-						$email = "";
-						$login_id = "";
-						$listValidateValue = ['login_id' => $user_lines->login_id];
-						$listValidate = ['login_id' => 'unique:'.$dest_db.'.users_copy,login_id'];
-						$login_id = $user_lines->login_id;
+						$validator	 = null;
+						$email		 = [];
+						$login_id	 = "";
+						
+						$login_id			 = $user_lines->login_id;
+						$listValidateValue	 = ['login_id' => $user_lines->login_id];
+						$listValidate		 = ['login_id' => 'unique:'.$dest_db.'.users_copy,login_id'];
+						
 						if( !empty($user_lines->pc_mail_address) ){
-							$email = $user_lines->pc_mail_address;
+							$email[]						 = $user_lines->pc_mail_address;
 							$listValidateValue['pc_email']	 = $user_lines->pc_mail_address;
-							$listValidate['pc_email']		 = 'bail|required|unique:'.$dest_db.'.users_copy,mail_address|max:'.config('const.email_length');
+							$listValidate['pc_email']		 = 'bail|required|unique:'.$dest_db.'.users_copy,mail_address|unique:'.$dest_db.'.users_copy,mobile_mail_address|max:'.config('const.email_length');
 						}
+						
 						if( !empty($user_lines->mb_mail_address) ){
-							$email = $user_lines->mb_mail_address;
-							$listValidateValue['email']			 = $user_lines->mb_mail_address;
-							$listValidate['email']				 = 'bail|required|unique:'.$dest_db.'.users_copy,mail_address|max:'.config('const.email_length');
+							$email[]						 = $user_lines->mb_mail_address;
+							$listValidateValue['email']		 = $user_lines->mb_mail_address;
+							$listValidate['email']			 = 'bail|required|unique:'.$dest_db.'.users_copy,mail_address|unique:'.$dest_db.'.users_copy,mobile_mail_address|max:'.config('const.email_length');
 						}
-						$validator = Validator::make($listValidateValue, $listValidate);
+						
+						if( !empty($listValidateValue['login_id']) ){
+							$validator = Validator::make($listValidateValue, $listValidate);
+						}
 
 						//エラーがあればスキップ
-						if ( $validator->fails() || empty($email) || empty($listValidateValue['login_id'])) {
+						if ( (!is_null($validator) && $validator->fails()) || empty($email) || empty($listValidateValue['login_id'])) {
 echo "skip:".$user_lines->login_id."\n";
 							$listErr = [];
 							$massage = [];
@@ -149,14 +156,14 @@ echo "skip:".$user_lines->login_id."\n";
 							if( !empty($listErr) ){
 								$failed_value['memo'] = implode(",", $listErr);
 							}
+							if( !empty($user_lines->description) ){
+								$failed_value['description'] = $user_lines->description;
+							}
 							if( !empty($user_lines->login_id) ){
 								$failed_value['login_id'] = $user_lines->login_id;
 							}
-							if( !empty($user_lines->pc_mail_address) ){
-								$failed_value['email'] = $user_lines->pc_mail_address;
-							}
-							if( !empty($user_lines->mb_mail_address) ){
-								$failed_value['email'] = $user_lines->mb_mail_address;
+							if( count($email) > 0 ){
+								$failed_value['email'] = implode(",", $email);
 							}
 							if( !empty($user_lines->last_access_datetime) ){
 								$failed_value['last_access_date'] = $user_lines->last_access_datetime;
@@ -308,7 +315,7 @@ echo "skip:".$user_lines->login_id."\n";
 									$failed_value['memo'] = implode(",", $listErr);
 								}
 								if( !empty($email) ){
-									$failed_value['email'] = $email;
+									$failed_value['email'] = implode(",", $email);
 								}
 								if( !empty($user_lines->login_id) ){
 									$failed_value['login_id'] = $user_lines->login_id;
@@ -318,6 +325,9 @@ echo "skip:".$user_lines->login_id."\n";
 								}
 								if( !empty($user_lines->regist_datetime) ){
 									$failed_value['reg_date'] = $user_lines->regist_datetime;
+								}
+								if( !empty($user_lines->description) ){
+									$failed_value['description'] = $user_lines->description;
 								}
 								DB::connection($dest_db)->table('migration_failed_users')->insert($failed_value);
 								DB::connection($dest_db)->commit();
@@ -345,10 +355,10 @@ echo "skip2:".$user_lines->login_id."\n";
 	//error_log(print_r($lines,true)."\n",3,"/data/www/tclb/storage/logs/nishi_log.txt");
 
 								//注文IDを生成
-								DB::connection($dest_db)->insert("insert ignore into create_order_ids(order_id) select MAX(order_id) + 1 from create_order_ids on duplicate key update order_id = order_id + 1;");
+								DB::connection($dest_db)->insert("insert ignore into create_order_ids_copy(order_id) select MAX(order_id) + 1 from create_order_ids_copy on duplicate key update order_id = order_id + 1;");
 
 								//注文IDを取得
-								$db_order_data = DB::connection($dest_db)->select('select * from create_order_ids');
+								$db_order_data = DB::connection($dest_db)->select('select * from create_order_ids_copy');
 	//echo print_r($db_order_data);
 								$order_id = $db_order_data[0]->order_id;
 

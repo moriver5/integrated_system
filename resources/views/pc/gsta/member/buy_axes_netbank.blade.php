@@ -51,7 +51,7 @@
 <input type="hidden" name="sendid" value="{{ $sendid }}">
 <input type="hidden" name="sendpoint" value="{{ $order_id }}">
 <input type="hidden" name="act" value="order">
-<input type="hidden" name="siteurl" value="{{ config('const.settlement_success_link_url') }}">
+<input type="hidden" name="siteurl" value="{{ config('const.settlement_success_link_url') }}/{{$order_id}}">
 <input type="hidden" name="sitestr" value="{{ mb_convert_encoding(config('const.axes_success_link_text'), 'SJIS-win', 'UTF-8') }}">
 <input type="hidden" name="pay_agency" value="{{ $pay_agency }}">
 </form>

@@ -166,10 +166,10 @@ return array_merge($const, [
 	'not_set_group'					=> [0, '未設定'],
 	'access_key'					=> '<ACCESS_KEY>',
 	'melmaga_id'					=> '<MELMAGA_ID>',
-	'settlement_success_link_url'	=> 'https://admin-k.work/member/settlement',
+	'settlement_success_link_url'	=> 'https://admin-k.work/member/settlement/done/',
 	'axes_success_link_text'		=> '購入ページへ戻る',
-	'axes_failure_link_url'			=> 'https://admin-k.work/member/settlement',
-	'axes_failure_link_text'		=> '購入ページへ戻る',
+	'axes_failure_link_url'			=> 'https://admin-k.work/member',
+	'axes_failure_link_text'		=> 'サイトへ戻る',
 	'convert_mail_from_name'		=> '-%site_name-',
 	'convert_from_mail'				=> '-%info_mail-',
 	'mail_from_name'				=> '【統合サイト】',
@@ -1164,6 +1164,8 @@ return array_merge($const, [
 	'email_change'					=> 'emails.email_change',
 	'quited_email'					=> 'emails.quit_user',
 	'black_email'					=> 'emails.black_user',
+	'product_order'					=> 'emails.product_order',
+	'payment_comp'					=> 'emails.payment_comp',
 
 	//管理用
 	'admin_regist'					=> 'emails.admin_regist',

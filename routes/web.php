@@ -987,7 +987,7 @@ Route::group(['middleware' => ['auth.token', 'member.login.bonus', 'member.lasta
 	Route::get('/member/info/end', 'MemberController@infoSendEnd');
 
 	//商品購入完了
-	Route::get('/member/settlement/done', 'MemberController@settlement_done');
+	Route::get('/member/settlement/done/{order_id?}', 'MemberController@settlement_done');
 
 	//商品購入
 	Route::get('/member/settlement/{product_id?}', 'MemberController@settlement');

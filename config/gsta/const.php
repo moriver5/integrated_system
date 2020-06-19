@@ -500,4 +500,6 @@ return array_merge($const, [
 	'quited_email'					=> 'emails.quit_user',
 	'black_email'					=> 'emails.black_user',
 	'info_email'					=> 'emails.info',
+	'product_order'					=> 'emails.product_order',
+	'payment_comp'					=> 'emails.payment_comp',
 ]);

@@ -23,7 +23,8 @@ class CreateMigrationFailedUsersTable extends Migration
 			$table->tinyInteger('disable')->nullable();
 			$table->dateTime('reg_date')->nullable();
 			$table->dateTime('last_access_date')->nullable();
-			$table->string('memo')->nullable();
+			$table->text('description')->nullable();
+			$table->text('memo')->nullable();
             $table->timestamps();
 			
 			$table->index('client_id', 'idx_client_id');

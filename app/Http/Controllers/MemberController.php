@@ -1213,7 +1213,7 @@ class MemberController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function settlement_done()
+	public function settlement_done($order_id = null)
 	{
 		try{
 			//会員ページのデフォルトのパラメータを取得
@@ -1227,6 +1227,18 @@ class MemberController extends Controller
 
 			//現在時刻取得
 			$now_date = Carbon::now();
+
+			if( !empty($order_id) ){
+				$db_data = Payment_log::where('order_id', $order_id)->first();
+				if( !empty($db_data) ){
+					//入金ｴﾗｰ
+					if( $db_data->status == config('const.settlement_result')[2] || 
+						$db_data->status == config('const.settlement_result')[6] ){
+						//メンバートップへ遷移
+						return redirect(config('const.member_top_path'));
+					}
+				}
+			}
 
 			//画面表示用変数
 			$disp_data = array_merge([

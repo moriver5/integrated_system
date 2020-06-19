@@ -55,8 +55,8 @@
 									<td style="padding:2px;text-align:center;">
 										{{ $lines->login_id }}
 									</td>
-									<td style="padding:2px;text-align:center;">
-										{{ $lines->email }}
+									<td style="padding:2px;text-align:left;">
+										{!! preg_replace("/,/", "<br>", $lines->email) !!}
 									</td>
 									<td style="padding:2px;text-align:center;">
 										{{ config('const.disp_regist_status')[$lines->status] }}
@@ -67,35 +67,40 @@
 									<td style="padding:2px;text-align:center;">
 										{{ $lines->disable ? "停止":"" }}
 									</td>
-									<td style="padding:2px;text-align:center;">
+									<td style="padding:2px;text-align:left;">
 										{{ $lines->reg_date }}
 									</td>
-									<td style="padding:2px;text-align:center;">
+									<td style="padding:2px;text-align:left;">
 										{{ $lines->last_access_date }}
 									</td>
 									<td style="padding:2px;text-align:left;">
-										@php  
-											$listData = explode(",",$lines->memo);
-											if( count($listData) > 0 ){
-												foreach($listData as $msg){
-													list($column, $err) = explode(":", $msg);
-													if( $column == 'login_id' ){
-														if( $err == 'Unique' ){
-															echo "ログインID重複<br>";
-														}elseif( $err == 'none' ){
-															echo "ログインIDなし<br>";
+										@php 
+											if( !empty($lines->memo) ){
+												$listData = explode(",",$lines->memo);
+												if( count($listData) > 0 ){
+													foreach($listData as $msg){
+														list($column, $err) = explode(":", $msg);
+														if( $column == 'login_id' ){
+															if( $err == 'Unique' ){
+																echo "ログインID重複<br>";
+															}elseif( $err == 'none' ){
+																echo "ログインIDなし<br>";
+															}
+														}
+														if( $column == 'email' || $column == 'pc_email'){
+															if( $err == 'Unique' ){
+																echo "メールアドレス重複<br>";
+															}elseif( $err == 'none' ){
+																echo "メールアドレスなし<br>";
+															}
 														}
 													}
-													if( $column == 'email' || $column == 'pc_email'){
-														if( $err == 'Unique' ){
-															echo "メールアドレス重複<br>";
-														}elseif( $err == 'none' ){
-															echo "メールアドレスなし<br>";
-														}
-													}
+												}else{
+													echo $lines->memo."<br>";
 												}
-											}else{
-												echo $lines->memo;
+											}
+											if( !empty($lines->description) ){
+												echo $lines->description;
 											}
 										@endphp
 									</td>

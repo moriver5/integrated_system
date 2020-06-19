@@ -23,6 +23,7 @@ use App\Model\Personal_mail_log;
 use App\Model\Create_order_id;
 use App\Model\Registered_mail_queue;
 use App\Model\Result_ad_log;
+use App\Model\Mail_content;
 use App\Mail\SendMail;
 use Auth;
 use Carbon\Carbon;
@@ -2486,6 +2487,47 @@ class AdminClientController extends Controller
 				'pay_datetime' => $now_date, 
 				'sort_pay_datetime' => preg_replace("/(\d{4})(\/|\-)(\d{2})(\/|\-)(\d{2})\s(\d{2}):(\d{2})(:\d{2})?/", "$1$3$5$6", $now_date).'00'
 			]);
+
+			//自動メールのデータ取得
+			$db_cnt = Mail_content::where('id', 11)->first();
+
+			//データがあれば
+			if( !empty($db_cnt) ){
+				//変換後の文字列を取得
+				list($body, $subject, $from_name, $from_mail) = Utility::getMailConvertData($db_cnt->body, $db_cnt->subject, $db_cnt->from, $db_cnt->from_mail);
+
+				//変換後の文字列を取得
+				$body = Utility::getConvertData($body);
+				$body = preg_replace("/\-%usermail\-/", $client_db->mail_address, $body);
+				$body = preg_replace("/\-%transfer_amount\-/", $request->input('pay_amount'), $body);
+				$body = preg_replace("/\-%order_date\-/", $now_date, $body);
+				$body = preg_replace("/\-%order_id\-/", $request->input('order_id'), $body);
+				$body = preg_replace("/\-%login_id\-/", $client_db->login_id, $body);
+				$body = preg_replace("/\-%password\-/", $client_db->password_raw, $body);
+				$body = preg_replace("/\-%token\-/", $client_db->remember_token, $body);
+				$body = preg_replace("/\-%accessKey\-/", $client_db->remember_token, $body);
+
+				list($host_ip, $port) = Utility::getSmtpHost('setting');
+
+				//送信元情報設定
+				$options = [
+					'client_id'	 => $client_db->client_id,
+					'host_ip'	 => $host_ip,
+					'port'		 => $port,
+					'from'		 => $from_mail,
+					'from_name'	 => $from_name,
+					'subject'	 => $subject,
+					'template'	 => Session::get('operation_select_db').'.'.config('const.payment_comp'),
+				];
+
+				//送信データ設定
+				$data = [
+					'contents'		=> $body,
+				];
+
+				//メールアドレス変更先へメール送信
+				Mail::to($client_db->mail_address)->send( new SendMail($options, $data) );
+			}
 		}
 
 		//変更前のステータスが入金済・入金済(管理手動)かつ変更後のステータスが入金済・入金済(管理手動)以外のとき
