@@ -7,7 +7,8 @@
         <div class="col-md-15 col-md-offset-1">
 			<div class="panel panel-default" style="font-size:12px;">
 				<div class="panel-heading">
-					<b>データ移行失敗一覧</b>
+					<b>データ移行失敗一覧</b><br>
+					<span style="color:red;font-weight:bold;">※最終アクセス日時が最新のデータから移行しているので、移行するときは必ずユーザーのアクセスがない状態で行ってください。移行されないデータが出てきます。</span>
 				</div>
 
 				<div class="panel-body">

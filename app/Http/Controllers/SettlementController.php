@@ -77,7 +77,7 @@ class SettlementController extends Controller
 
 			//同じ注文IDでpayment_logsテーブルにすでに登録されていれば削除
 			$db_data = Payment_log::where('order_id', $order_id)->first();
-			if( !empty($db_data) ){
+			if( !empty($db_data) || $method != 1 ){
 				$delete = Payment_log::where('order_id', $order_id)->delete();
 			}
 
@@ -240,8 +240,8 @@ class SettlementController extends Controller
 			'db_data'		=> $list_new_product_data
 		],$disp_param);
 
-		//注文IDがクッキーに保存されていないとき
-		if( empty($request->cookie(config('const.product_order_id_cookie_name'))) ){
+		//注文IDがクッキーに保存されていないときまたは銀行振込のとき
+		if( empty($request->cookie(config('const.product_order_id_cookie_name'))) || $method == 1 ){
 			//注文IDを保存するクッキーを生成
 			$cookie = cookie(config('const.product_order_id_cookie_name'), $order_id, config('const.product_order_cookie_life_time'));
 
@@ -293,7 +293,7 @@ class SettlementController extends Controller
 
 			//同じ注文IDでpayment_logsテーブルにすでに登録されていれば削除
 			$db_data = Payment_log::where('order_id', $order_id)->first();
-			if( !empty($db_data) ){
+			if( !empty($db_data) && $method != 1 ){
 				$delete = Payment_log::where('order_id', $order_id)->delete();
 			}
 
@@ -441,8 +441,8 @@ class SettlementController extends Controller
 			'db_data'		=> $db_data
 		],$disp_param);
 
-		//注文IDがクッキーに保存されていないとき
-		if( empty($request->cookie(config('const.product_order_id_cookie_name'))) ){
+		//注文IDがクッキーに保存されていないときまたは銀行振込のとき
+		if( empty($request->cookie(config('const.product_order_id_cookie_name'))) || $method == 1 ){
 			//注文IDを保存するクッキーを生成
 			$cookie = cookie(config('const.product_order_id_cookie_name'), $order_id, config('const.product_order_cookie_life_time'));
 
@@ -469,7 +469,7 @@ class SettlementController extends Controller
 	 */
 	private function _getOrderId(Request $request, $login_id, $method){
 		//注文IDがまだ生成されていないorネットバンク決済の場合($method:3 銀行振込はデータ取得処理に時間かかるため、その間に別の商品を注文すると決済結果を取得する前に同じ注文IDで上書きされてしますので)
-		if( empty($request->cookie(config('const.product_order_id_cookie_name'))) || $method == 3 ){
+		if( empty($request->cookie(config('const.product_order_id_cookie_name'))) || $method == 1 ){
 			//注文IDを生成
 			DB::insert("insert ignore into create_order_ids(order_id) select MAX(order_id) + 1 from create_order_ids on duplicate key update order_id = order_id + 1;");
 

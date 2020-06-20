@@ -103,7 +103,7 @@ echo "処理件数：{$user_count}\n";
 						
 						$login_id			 = $user_lines->login_id;
 						$listValidateValue	 = ['login_id' => $user_lines->login_id];
-						$listValidate		 = ['login_id' => 'unique:'.$dest_db.'.users_copy,login_id'];
+						$listValidate		 = ['login_id' => 'bail|required|unique:'.$dest_db.'.users_copy,login_id'];
 						
 						if( !empty($user_lines->pc_mail_address) ){
 							$email[]						 = $user_lines->pc_mail_address;
@@ -122,11 +122,11 @@ echo "処理件数：{$user_count}\n";
 						}
 
 						//エラーがあればスキップ
-						if ( (!is_null($validator) && $validator->fails()) || empty($email) || empty($listValidateValue['login_id'])) {
+						if ( empty($email) || empty($listValidateValue['login_id']) || (!empty($validator) && $validator->fails()) ) {
 echo "skip:".$user_lines->login_id."\n";
 							$listErr = [];
 							$massage = [];
-							if ( $validator->fails() ){
+							if ( !empty($validator) && $validator->fails() ){
 								foreach($validator->failed() as $column => $lines){
 									foreach($lines as $err => $values ){
 										$massage[] = $column.":".$err;
