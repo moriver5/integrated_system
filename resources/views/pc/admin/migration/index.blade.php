@@ -60,7 +60,7 @@
 										{!! preg_replace("/,/", "<br>", $lines->email) !!}
 									</td>
 									<td style="padding:2px;text-align:center;">
-										{{ config('const.disp_regist_status')[$lines->status] }}
+										{{ config('const.original_regist_status')[$lines->status] }}
 									</td>
 									<td style="padding:2px;text-align:center;">
 										{{ $lines->is_quit ? "退会済":"" }}

@@ -21,9 +21,6 @@
 			'axes_failure_link_text'		=> '購入ページへ戻る',
 			'list_site_const'				=> [
 				'test.g-stars.net'			=> 'gsta',
-				'dev.jra-yosou.net'			=> 'jray',
-				'dev.keirin-yosou.com'		=> 'kriy',
-				'dev.tcl-boat.com'			=> 'tclb',
 			],
 		];
 
@@ -42,9 +39,6 @@
 			'axes_failure_link_text'		=> '購入ページへ戻る',
 			'list_site_const'				=> [
 				'g-stars.net'				=> 'gsta',
-				'dev.jra-yosou.net'			=> 'jray',
-				'dev.keirin-yosou.com'		=> 'kriy',
-				'dev.tcl-boat.com'			=> 'tclb',
 			],
 		];
 	}
@@ -75,29 +69,6 @@ return array_merge($const, [
 		'ocn\.ne\.jp',
 	],
 	'html_title'					=> 'GOLDEN★STARS(ゴールデン★スターズ)',
-	'disp_mobile_domain'			=> [
-		'docomo.ne.jp',
-		'ezweb.ne.jp',
-		'i.softbank.jp',
-		'softbank.ne.jp',
-		'd.vodafone.ne.jp',
-		'h.vodafone.ne.jp',
-		't.vodafone.ne.jp',
-		'r.vodafone.ne.jp',
-		'c.vodafone.ne.jp',
-		'k.vodafone.ne.jp',
-		'n.vodafone.ne.jp',
-		's.vodafone.ne.jp',
-		'q.vodafone.ne.jp',
-		'disney.ne.jp',
-		'pdx.ne.jp',
-		'di.pdx.ne.jp',
-		'dj.pdx.ne.jp',
-		'dk.pdx.ne.jp',
-		'wm.pdx.ne.jp',
-		'willcom.com',
-		'ymobile.ne.jp',
-	],
 	//settlement_typesテーブルのidで決済会社をわける
 	//id=1 telecom
 	//id=2 axes
@@ -162,7 +133,10 @@ return array_merge($const, [
 		'202.221.139.50',
 		'172.16.0.36',				//開発サーバーIP
 		'172.16.44.102',			//開発環境でテストするとき：西沢のローカルPCのIPでテストするとき
-//		'222.151.205.105'			//本番環境でテストするとき：社内IP？
+//		'222.151.205.105',			//本番環境でテストするとき：社内IP？
+		'153.142.217.3',
+		'210.164.6.67',
+		'202.221.139.50',
 	],
 	'telecom_remote_addr'				=> [
 		'54.65.177.67',
@@ -181,19 +155,21 @@ return array_merge($const, [
 		'172.16.44.102',			//開発環境でテストするとき：西沢のローカルPCのIPでテストするとき
 //		'222.151.205.105'			//本番環境でテストするとき：社内IP？
 	],
+	'settlement_success_link_url'	=> 'https://admin-k.work/member/settlement/done/',
+	'axes_success_link_text'		=> '購入ページへ戻る',
+	'axes_failure_link_url'			=> 'https://admin-k.work/member',
+	'axes_failure_link_text'		=> 'サイトへ戻る',
 	'access_key'					=> '<ACCESS_KEY>',
 	'melmaga_id'					=> '<MELMAGA_ID>',
 	'convert_mail_from_name'		=> '-%site_name-',
 	'convert_from_mail'				=> '-%info_mail-',
 	'mail_from_name'				=> '【GOLDEN★STARS】',
 	'user_mail_subject'				=> 'お問い合わせ',
-	'artisan_command_path'			=> 'php /data/www/siteo/artisan',
 	'public_dir_path'				=> 'public',
 	'public_full_path'				=> '/data/www/siteo/public',
 	'landing_dir_path'				=> 'LP',
 	'landing_url_path'				=> 'LP',
 	'redirect_landing_url_path'		=> 'LP',
-	'upload_img_path'				=> 'upload_images',
 	'top_content_images_path'		=> 'images/top_content',
 	'tipster_images_path'			=> 'images/tipster',
 	'images_path'					=> 'images',
@@ -202,7 +178,6 @@ return array_merge($const, [
 	'campaign_url_path'				=> 'member/campaign/',
 	'regular_url_path'				=> 'member/regular/',
 	'mailbox_history_url_path'		=> 'member/mailbox/history',
-	'agency_login_id_max_length'	=> 20,
 	'login_id_length'				=> 6,
 	'login_id_max_length'			=> 20,
 	'email_length'					=> 254,
@@ -213,35 +188,6 @@ return array_merge($const, [
 	'subject_length'				=> 50,
 	'from_name_length'				=> 50,
 	'contents_length'				=> 300,
-	'group_name_max_length'			=> 100,
-	'group_memo_max_length'			=> 100,
-	'forecast_title_max_length'		=> 100,
-	'forecast_comment_max_length'	=> 250,
-	'top_content_title_max_length'	=> 250,
-	'top_product_title_max_length'	=> 250,
-	'achievement_race_max_length'	=> 100,
-	'achievement_msg1_max_length'	=> 250,
-	'achievement_msg2_max_length'	=> 250,
-	'achievement_msg3_max_length'	=> 250,
-	'achievement_memo_max_length'	=> 250,
-	'lp_memo_max_length'			=> 250,
-	'contents_title_max_length'		=> 100,
-	'relay_server_max_length'		=> 15,
-	'pt_category_name_max_length'	=> 50,
-	'pt_category_remarks_max_length'=> 100,
-	'pt_setting_text_max_length'	=> 100,
-	'pt_setting_remarks_max_length'	=> 100,
-	'convert_key_max_length'		=> 100,
-	'convert_value_max_length'		=> 255,
-	'convert_memo_max_length'		=> 250,
-	'ad_code_max_length'			=> 50,
-	'ad_name_max_length'			=> 100,
-	'ad_code_memo_max_length'		=> 250,
-	'voice_title_max_length'		=> 100,
-	'voice_writer_max_length'		=> 20,
-	'voice_comment_max_length'		=> 250,
-	'num_digits_max_length'			=> 2,
-	'item_value_max_length'			=> 250,
 	'sendid_length'					=> 25,
 
 	/*
@@ -310,7 +256,6 @@ return array_merge($const, [
 		's\-vc\.jp',
 		'gmail\.com'
 	],
-	'admin_client_list_limit'			=> 100,
 	'disp_news_data_limit'				=> 5,
 	'roop_limit'						=> 10,
 	'disp_achievements_limit'			=> 18,

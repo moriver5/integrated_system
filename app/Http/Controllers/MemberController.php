@@ -1317,7 +1317,6 @@ class MemberController extends Controller
 			$disp_data = array_merge([
 				'title'					=> config('const.list_title')['mem_setting'],
 				'list_banner'			=> $this->list_banner_data,
-				'list_domain'			=> config('const.disp_mobile_domain'),
 				'password_raw'			=> $disp_param['password_raw'],
 				'login_bonus_flg'		=> false,
 				'login_bonus_msg'		=> $this->login_bonus_msg,

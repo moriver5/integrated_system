@@ -431,6 +431,7 @@ class SettlementController extends Controller
 			'title'			=> config('const.list_title')['mem_settlement_check'],
 			'list_banner'	=> $this->list_banner_data,
 			'pay_method'	=> $method,
+			'pay_agency'	=> $db_payment_agency->name,
 			'sendid'		=> $disp_param['login_id'],
 			'product_id'	=> $request->input('product_id'),
 			'order_id'		=> $order_id,
