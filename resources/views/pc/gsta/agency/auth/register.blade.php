@@ -88,7 +88,7 @@ $(document).ready(function(){
 	
 	//アカウント編集ボタン押下後のダイアログ確認メッセージ
 	//引数：フォームID、フォームのmethod、ダイアログのタイトル、ダイアログのメッセージ、通信完了後にダイアログに表示させるメッセージ、ダイアログのキャンセルメッセージ、タイムアウト
-	submitAlert('formCreate', 'post', '{{ __('messages.dialog_alert_title') }}', '{{ __('messages.dialog_alert_msg') }}', '{{ __('messages.account_provision_create') }}', '{{ __('messages.cancel_msg') }}', {{ config('const.admin_default_ajax_timeout') }}, true);
+	submitAlert('formCreate', 'post', '{{ __('messages.dialog_alert_title') }}', '{{ __('messages.dialog_alert_msg') }}', '{{ __('messages.account_provision_create') }}', '{{ __('messages.cancel_msg') }}', {{ config('const.default_ajax_timeout') }}, true);
 });
 </script>
 

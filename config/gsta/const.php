@@ -155,10 +155,6 @@ return array_merge($const, [
 		'172.16.44.102',			//開発環境でテストするとき：西沢のローカルPCのIPでテストするとき
 //		'222.151.205.105'			//本番環境でテストするとき：社内IP？
 	],
-	'settlement_success_link_url'	=> 'https://admin-k.work/member/settlement/done/',
-	'axes_success_link_text'		=> '購入ページへ戻る',
-	'axes_failure_link_url'			=> 'https://admin-k.work/member',
-	'axes_failure_link_text'		=> 'サイトへ戻る',
 	'access_key'					=> '<ACCESS_KEY>',
 	'melmaga_id'					=> '<MELMAGA_ID>',
 	'convert_mail_from_name'		=> '-%site_name-',
@@ -250,12 +246,7 @@ return array_merge($const, [
 	'setting_check_email'				=> 'check_email',
 	'info_end_status'					=> 'end',
 	'forget_end_status'					=> 'end',
-	'admin_default_ajax_timeout'		=> 10000,
-	'admin_member_domain'				=> [
-		'i\-sac\.jp',
-		's\-vc\.jp',
-		'gmail\.com'
-	],
+	'default_ajax_timeout'				=> 10000,
 	'disp_news_data_limit'				=> 5,
 	'roop_limit'						=> 10,
 	'disp_achievements_limit'			=> 18,

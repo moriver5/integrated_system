@@ -63,7 +63,7 @@ TEL：0570-03-6000（03-3498-6200）<br>
 <input type="hidden" name="email" value="{{ $email }}">
 <input type="hidden" name="sendid" value="{{ $sendid }}">
 <input type="hidden" name="sendpoint" value="{{ $order_id }}">
-<input type="hidden" name="success_url" value="{{ config('const.settlement_success_link_url') }}">
+<input type="hidden" name="success_url" value="{{ config('const.settlement_success_link_url') }}/{{$order_id}}">
 <input type="hidden" name="success_str" value="{{ mb_convert_encoding(config('const.axes_success_link_text'), 'SJIS-win', 'UTF-8') }}">
 <input type="hidden" name="failure_url" value="{{ config('const.axes_failure_link_url') }}">
 <input type="hidden" name="failure_str" value="{{ mb_convert_encoding(config('const.axes_failure_link_text'), 'SJIS-win', 'UTF-8') }}">
